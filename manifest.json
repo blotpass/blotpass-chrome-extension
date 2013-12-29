@@ -15,7 +15,7 @@
   ],
 
   "page_action": {
-    "default_name": "blot.pw",
+    "default_title": "blot.pw",
     "default_popup": "popup.html"
   },
 
