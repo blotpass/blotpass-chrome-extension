@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+
+  "name": "blot.pw",
+  "description": "Adds blot.pw information to your tabs.",
+  "version": "0.9.0",
+
+  "icons": { "16": "icon16.png",
+             "48": "icon48.png",
+            "128": "icon128.png" },
+
+  "permissions": [
+    "*://*.blot.pw/*",
+    "storage"
+  ],
+
+  "page_action": {
+    "default_name": "blot.pw",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": ["queue.js", "sha1.js",
+      "hashblot.js", "blotpw.js", "background.js"],
+    "persistent": false
+  },
+
+  "options_page": "options.html"
+}
