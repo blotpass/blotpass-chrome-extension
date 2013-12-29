@@ -29,8 +29,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
               info.record ? '' : 'fill:none;stroke:black')
           });
           chrome.pageAction.show(tabId);
-        } else {
-          chrome.pageAction.hide(tabId);
         }
       });
     }
