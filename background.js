@@ -40,7 +40,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
           tabId: tabId,
           imageData: hashblotImageData(blotpw.blotString({
             domain: info.domain, email: email, salt: salt}),
-            info.record ? '' : 'fill:none;stroke:black')
+            info.record ? '' : 'fill:#888')
         });
         chrome.pageAction.show(tabId);
       });
