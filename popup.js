@@ -17,10 +17,13 @@ var currentInfo;
 function loadInfo() {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     var currentUrl = tabs[0].url;
-    blotpw.getDomainAndInfo(currentUrl, function(err,info) {
-      currentInfo = info;
-      setStateFromCurrentInfo();
-    });
+    var hostname = blotpw.getHostnameFromUrl(changeInfo.url);
+    if (hostname) {
+      blotpw.getDomainAndInfo(hostname, function(err,info) {
+        currentInfo = info;
+        setStateFromCurrentInfo();
+      });
+    }
   });
 }
 
