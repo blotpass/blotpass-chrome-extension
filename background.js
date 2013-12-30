@@ -3,7 +3,7 @@
 // until http://crbug.com/29683 is fixed, we need to generate ImageData
 // to set the icon for a page action
 var iconSize = 19;
-var scales = [1,2,4];
+var scales = [1,2];
 var maxDimension = Math.max.apply(null,scales) * iconSize;
 var svgImg = document.createElement('img');
 var iconCanvas = document.createElement('canvas');
