@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <style>
+      body {
+      witdh: 300px;
+      }
       #blotout {
-        height: 256px;
-        width: 256px;
         margin: 5px;
         box-shadow: 1px 1px 5px 1px rgba(0,0,0,.25);
         fill-rule: nonzero;
@@ -29,7 +30,7 @@
       <input id="salt" type="text" placeholder="Optional salt">
     </div>
     <div>
-      <svg id="blotout" viewBox = '-1 -1 257 257'>
+      <svg id="blotout" viewBox='-1 -1 257 257'>
         <path id='blotpath'></path>
       </svg>
     </div>
