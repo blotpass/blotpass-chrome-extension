@@ -43,7 +43,7 @@ function getLocalNamespaces(namespaces,cb) {
       namespaces.forEach(function(namespace) {
         var prefix = namespace + '.';
         if (key.slice(0,prefix.length) == prefix) {
-          results[namespace][key.slice(prefix.length)] = items.key;
+          results[namespace][key.slice(prefix.length)] = items[key];
         }
       });
     });
