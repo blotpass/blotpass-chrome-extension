@@ -30,11 +30,11 @@ function loadInfo() {
 function getResultsFromInfo(info) {
   return {
     domain: info.domain,
-    email: info.record ? info.record.email
-      : info.defaults && info.defaults.email,
-    salt: info.record ? info.record.salt
-      : info.defaults && info.defaults.salt,
-    memo: info.record && info.record.memo
+    email: info.record ? (info.record.email || '')
+      : info.defaults && (info.defaults.email || ''),
+    salt: info.record ? (info.record.salt || '')
+      : info.defaults && (info.defaults.salt || ''),
+    memo: info.record && (info.record.memo || '');
   };
 }
 
