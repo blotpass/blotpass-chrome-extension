@@ -2,8 +2,8 @@
 
 function init() {
   blotpw.getDefaults(function(err, defaults) {
-    document.getElementById('email').value = defaults.email;
-    document.getElementById('salt').value = defaults.salt;
+    document.getElementById('email').value = defaults.email || '';
+    document.getElementById('salt').value = defaults.salt || '';
   });
 }
 
