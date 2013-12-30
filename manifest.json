@@ -11,6 +11,7 @@
 
   "permissions": [
     "*://*.blot.pw/*",
+    "tabs",
     "storage"
   ],
 
