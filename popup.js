@@ -48,6 +48,7 @@ function setStateFromCurrentInfo() {
   calculateHashblot();
   setDomainProfileInfo();
   updateDisplayState();
+  snapToPostActionState();
 }
 
 function setDomainProfileInfo() {
@@ -135,6 +136,12 @@ function updateDisplayStateAndBlot() {
   updateDisplayState();
 }
 
+function updateDomain() {
+  document.getElementById('domain-fixed').textContent =
+    document.getElementById('domain-input').value;
+  updateDisplayStateAndBlot();
+}
+
 function deleteRecord() {
   chrome.storage.local.remove(['records.' + currentInfo.domain], function(){
     // load info for whatever the relevant domain is now
@@ -170,7 +177,7 @@ function hookupListeners() {
     document.getElementById(id).addEventListener(event, listener);
   }
 
-  gebidael('domain-input', 'keyup', updateDisplayStateAndBlot);
+  gebidael('domain-input', 'keyup', updateDomain);
   gebidael('email', 'keyup', updateDisplayStateAndBlot);
   gebidael('salt', 'keyup', updateDisplayStateAndBlot);
   gebidael('memo', 'keyup', updateDisplayState);
