@@ -20,16 +20,22 @@ function hashblotImageData(str, style) {
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if (changeInfo.url) {
+  if (changeInfo.url) {
+    var hostname = blotpw.getHostnameFromUrl(changeInfo.url);
+    if (hostname) {
       blotpw.getDomainAndInfo(changeInfo.url, function(info) {
-        if (info.domain) {
-          chrome.pageAction.setIcon({
-            tabId: tabId,
-            imageData: hashblotImageData(info.domain,
-              info.record ? '' : 'fill:none;stroke:black')
-          });
-          chrome.pageAction.show(tabId);
-        }
+        var email = info.record ? info.record.email
+          : info.defaults && info.defaults.email;
+        var salt = info.record ? info.record.salt
+          : info.defaults && info.defaults.salt;
+        chrome.pageAction.setIcon({
+          tabId: tabId,
+          imageData: hashblotImageData(blotpw.blotString({
+            domain: info.domain, email: email, salt: salt}),
+            info.record ? '' : 'fill:none;stroke:black')
+        });
+        chrome.pageAction.show(tabId);
       });
     }
-  });
+  }
+});

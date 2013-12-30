@@ -13,60 +13,91 @@ function urlIsHttp(url) {
   return a.protocol == 'http:' || a.protocol == 'https:' ;
 }
 
+function getHostnameFromUrl(url) {
+  return urlIsHttp(url) ? getHostname(url) : null;
+}
+
 function getDomainProfiles(cb) {
   var xhr = new XMLHttpRequest();
   xhr.onload = function() {
-    return cb(null,JSON.parse(xhr.responseText));
+    return cb(null, JSON.parse(xhr.responseText));
   };
-  xhr.open("GET","/domainprofiles.json",true);
+  xhr.open("GET", "/domainprofiles.json", true);
   xhr.send();
 }
 
-function getLocalRecords(cb) {
+function blotString(info) {
+  var base = info.domain;
+  if (info.email) base = info.email + ' ' + base;
+  if (info.salt) base = base + ' ' + info.salt;
+  return base;
+}
+
+function getLocalNamespaces(namespaces,cb) {
   return chrome.storage.local.get(null, function(items) {
-    var records = Object.create(null);
-    Object.keys(items).forEach(function (key) {
-      if (key.slice(0,9) == 'profiles/') {
-        records[key.slice(9)] = items.key;
-      }
+    var results = {};
+    var namespaces = Object.keys(results);
+    namespaces.forEach(function(namespace) {
+      results[namespace] = {};
     });
-    return cb(null, records);
+    Object.keys(items).forEach(function (key) {
+      namespaces.forEach(function(namespace) {
+        var prefix = namespace + '.';
+        if (key.slice(0,prefix.length) == prefix) {
+          results[namespace][key.slice(prefix.length)] = items.key;
+        }
+      });
+    });
+    return cb(null, results);
   });
 }
 
-function getDomainAndInfo(url, cb) {
-  if (urlIsHttp(url)){
-    var hostname = getHostname(url);
-    var components = hostname.split('.');
-    queue()
-      .defer(getDomainProfiles)
-      .defer(getLocalRecords)
-      .await(function(err, profiles, records){
-        var i = 0;
-        // For every level of the domain by specificity
-        while (i < components.length) {
-          var domain = components.slice(i, components.length).join('.');
-
-          // If there is a profile or record for this domain
-          if (profiles[domain] || records[domain]) {
-            return cb({
-              domain: domain,
-              profile: profiles[domain],
-              record: records[domain]
-            });
-          }
-        }
-        // if no profile or record found
-        return cb({
-          domain:
-            // strip 'www' components
-            components[0] == 'www' ? components.slice(1).join('.')
-              : hostname
-        });
-      });
-  } else {
-    return cb({});
-  }
+function getDefaults(cb){
+  getLocalNamespaces(['defaults'], function(err,res) {
+    return cb(err,res.defaults);
+  });
 }
-window.blotpw = {getDomainAndInfo: getDomainAndInfo};
+
+function getDomainAndInfo(hostname, cb) {
+  var components = hostname.split('.');
+  queue()
+    .defer(getDomainProfiles)
+    .defer(getLocalNamespaces, ['records', 'defaults'])
+    .await(function(err, profiles, local) {
+      var records = local.records;
+      var i = 0;
+      // For every level of the domain by specificity
+      while (i < components.length) {
+        var domain = components.slice(i, components.length).join('.');
+
+        // If there is a profile or record for this domain
+        if (profiles[domain] || records[domain]) {
+          return cb(null,{
+            domain: domain,
+            profile: profiles[domain],
+            record: records[domain],
+            defaults: local.defaults
+          });
+        }
+      }
+      // if no profile or record found
+      return cb(null,{
+        domain:
+          // strip 'www' prefix, if present
+          // check lastIndexOf because if www appears multiple times in
+          // the components, something freaky is going on, and we're not
+          // going to touch that
+          components.lastIndexOf('www') == 0 ? components.slice(1).join('.')
+            : hostname,
+        defaults: local.defaults
+      });
+    });
+}
+
+window.blotpw = {
+  blotString: blotString,
+  getHostnameFromUrl: getHostnameFromUrl,
+  getDomainAndInfo: getDomainAndInfo,
+  getDefaults: getDefaults
+};
 })();

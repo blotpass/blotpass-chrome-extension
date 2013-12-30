@@ -13,12 +13,58 @@
     </style>
   </head>
   <body>
-    <input id="domain" type="text">
-    <input id="email" type="text">
-    <input id="salt" type="text">
-    <svg id="blotout" viewBox = '-1 -1 257 257'>
-      <path id='blotpath'></path>
-    </svg>
+    <div id="domaininfo">
+      <div id="domain-input" style="display: none">
+        <input id="domain" type="text">
+      </div>
+      <div id="domain-fixed" style="display: none">
+        <span id="domainname"></span>
+        <button type="button" id="domainedit">Edit</button>
+      </div>
+    </div>
+    <div>
+      <input id="email" type="text">
+    </div>
+    <div>
+      <input id="salt" type="text" placeholder="Optional salt">
+    </div>
+    <div>
+      <svg id="blotout" viewBox = '-1 -1 257 257'>
+        <path id='blotpath'></path>
+      </svg>
+    </div>
+    <div>
+      <input id="memo" type="text">
+    </div>
+    <div id="finishers">
+      <div id="norecord-untouched" style="display: none">
+        <button type="button" id="ok-dismiss">OK</button>
+      </div>
+      <div id="norecord-edited" style="display: none">
+        <button type="button" id="save-new">Save</button>
+        <button type="button" id="cancel-new">Cancel</button>
+      </div>
+      <div id="record-untouched" style="display: none">
+        <button type="button" id="ok-record">OK</button>
+        <button type="button" id="delete-record">Delete</button>
+      </div>
+      <div id="record-edited" style="display: none">
+        <button type="button" id="save-edit">Save</button>
+        <button type="button" id="cancel-edit">Revert</button>
+      </div>
+      <div id="record-blanked" style="display: none">
+        <button type="button" id="save-blank">Delete</button>
+        <button type="button" id="cancel-blank">Revert</button>
+      </div>
+      <div id="record-changed" style="display: none">
+        <button type="button" id="save-change">Change</button>
+        <button type="button" id="cancel-change">Revert</button>
+      </div>
+    </div>
+    <div id="domainprofile" style="display: none">
+
+    </div>
+    <script src="queue.js"></script>
     <script src="sha1.js"></script>
     <script src="hashblot.js"></script>
     <script src="blotpw.js"></script>
