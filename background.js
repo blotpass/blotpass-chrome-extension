@@ -23,7 +23,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (changeInfo.url) {
     var hostname = blotpw.getHostnameFromUrl(changeInfo.url);
     if (hostname) {
-      blotpw.getDomainAndInfo(changeInfo.url, function(info) {
+      blotpw.getDomainAndInfo(hostname, function(info) {
         var email = info.record ? info.record.email
           : info.defaults && info.defaults.email;
         var salt = info.record ? info.record.salt
