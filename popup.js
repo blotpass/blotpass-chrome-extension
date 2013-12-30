@@ -16,8 +16,7 @@ var currentInfo;
 
 function loadInfo() {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-    var currentUrl = tabs[0].url;
-    var hostname = blotpw.getHostnameFromUrl(changeInfo.url);
+    var hostname = blotpw.getHostnameFromUrl(tabs[0].url);
     if (hostname) {
       blotpw.getDomainAndInfo(hostname, function(err,info) {
         currentInfo = info;
@@ -30,11 +29,11 @@ function loadInfo() {
 function getResultsFromInfo(info) {
   return {
     domain: info.domain,
-    email: info.record ? (info.record.email || '')
-      : info.defaults && (info.defaults.email || ''),
-    salt: info.record ? (info.record.salt || '')
-      : info.defaults && (info.defaults.salt || ''),
-    memo: info.record && (info.record.memo || '')
+    email: info.record ? info.record.email || ''
+      : info.defaults && info.defaults.email || '',
+    salt: info.record ? info.record.salt || ''
+      : info.defaults && info.defaults.salt || '',
+    memo: info.record && info.record.memo || ''
   };
 }
 
