@@ -36,7 +36,6 @@ function blotString(info) {
 function getLocalNamespaces(namespaces,cb) {
   return chrome.storage.local.get(null, function(items) {
     var results = {};
-    var namespaces = Object.keys(results);
     namespaces.forEach(function(namespace) {
       results[namespace] = {};
     });
