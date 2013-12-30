@@ -78,6 +78,8 @@ function getDomainAndInfo(hostname, cb) {
             defaults: local.defaults
           });
         }
+
+        ++i;
       }
       // if no profile or record found
       return cb(null,{
