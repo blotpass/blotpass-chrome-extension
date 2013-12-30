@@ -34,7 +34,7 @@ function getResultsFromInfo(info) {
       : info.defaults && (info.defaults.email || ''),
     salt: info.record ? (info.record.salt || '')
       : info.defaults && (info.defaults.salt || ''),
-    memo: info.record && (info.record.memo || '');
+    memo: info.record && (info.record.memo || '')
   };
 }
 
