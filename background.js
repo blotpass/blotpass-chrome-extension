@@ -28,22 +28,20 @@ function hashblotImageData(str, style) {
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  if (changeInfo.url) {
-    var hostname = blotpw.getHostnameFromUrl(changeInfo.url);
-    if (hostname) {
-      blotpw.getDomainAndInfo(hostname, function(err, info) {
-        var email = info.record ? info.record.email
-          : info.defaults && info.defaults.email;
-        var salt = info.record ? info.record.salt
-          : info.defaults && info.defaults.salt;
-        chrome.pageAction.setIcon({
-          tabId: tabId,
-          imageData: hashblotImageData(blotpw.blotString({
-            domain: info.domain, email: email, salt: salt}),
-            info.record ? '' : 'fill:#888')
-        });
-        chrome.pageAction.show(tabId);
+  var hostname = blotpw.getHostnameFromUrl(tab.url);
+  if (hostname) {
+    blotpw.getDomainAndInfo(hostname, function(err, info) {
+      var email = info.record ? info.record.email
+        : info.defaults && info.defaults.email;
+      var salt = info.record ? info.record.salt
+        : info.defaults && info.defaults.salt;
+      chrome.pageAction.setIcon({
+        tabId: tabId,
+        imageData: hashblotImageData(blotpw.blotString({
+          domain: info.domain, email: email, salt: salt}),
+          info.record ? '' : 'fill:#888')
       });
-    }
+      chrome.pageAction.show(tabId);
+    });
   }
 });
