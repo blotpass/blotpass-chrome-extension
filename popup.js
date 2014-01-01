@@ -1,4 +1,4 @@
-/*global chrome hashblot queue blotpw*/
+/*global chrome hashblot queue blotpw blotIcon*/
 
 function updateFromPhrase(phrase) {
   document.getElementById('blotpath').setAttribute('d',
@@ -108,6 +108,15 @@ function updateDisplayState() {
   }
 }
 
+function updateTabIcons(domain) {
+  chrome.tabs.query({url: '*://*.' + domain + '/*'},
+    function (tabs) {
+      for (var i = 0; i < tabs.length; ++i) {
+        bloticon.updateTabIcon(tabs[i]);
+      }
+    });
+}
+
 function saveRecord() {
   var newDomain = document.getElementById('domain').value;
   // TODO: alert if new record won't match the current domain
@@ -127,6 +136,7 @@ function saveRecord() {
       currentInfo.record = newRecord;
       updateDisplayState();
     }
+    updateTabIcons(newDomain);
   });
 }
 
@@ -144,6 +154,7 @@ function updateDomain() {
 function deleteRecord() {
   chrome.storage.local.remove(['records.' + currentInfo.domain], function(){
     // load info for whatever the relevant domain is now
+    updateTabIcons(currentInfo.domain);
     loadInfo();
   });
 }
