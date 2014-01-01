@@ -57,7 +57,7 @@ function setDomainProfileInfo() {
 function showOnlyChild(parentId, childId) {
   var children = document.getElementById(parentId).children;
   for (var i = 0; i < children.length; i++) {
-    children[i].style.display = children[i].id == childId ? '' : 'none';
+    children[i].hidden = (children[i].id != childId);
   }
 }
 
