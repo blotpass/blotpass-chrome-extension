@@ -187,10 +187,10 @@ function hookupListeners() {
     document.getElementById(id).addEventListener(event, listener);
   }
 
-  gebidael('domain-input', 'keyup', updateDomain);
-  gebidael('email', 'keyup', updateDisplayStateAndBlot);
-  gebidael('salt', 'keyup', updateDisplayStateAndBlot);
-  gebidael('memo', 'keyup', updateDisplayState);
+  gebidael('domain-input', 'input', updateDomain);
+  gebidael('email', 'input', updateDisplayStateAndBlot);
+  gebidael('salt', 'input', updateDisplayStateAndBlot);
+  gebidael('memo', 'input', updateDisplayState);
 
   gebidael('domainedit', 'click', editDomain);
 
