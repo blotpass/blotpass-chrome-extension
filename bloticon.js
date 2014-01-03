@@ -45,7 +45,7 @@
         });
         chrome.pageAction.setTitle({
           tabId: tab.id,
-          title: 'blot.pw: ' + blotStr
+          title: 'blot.pw [' + blotStr + ']'
         });
         chrome.pageAction.show(tab.id);
       });
