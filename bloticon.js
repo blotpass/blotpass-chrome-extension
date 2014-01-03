@@ -33,10 +33,11 @@
       blotpw.getDomainAndInfo(hostname, function(err, info) {
         var blotStr = blotpw.blotString({
           domain: info.domain,
-          email: email = info.record ? info.record.email
+          email: info.record ? info.record.email
             : info.defaults && info.defaults.email,
           salt: info.record ? info.record.salt
-            : info.defaults && info.defaults.salt});
+            : info.defaults && info.defaults.salt
+        });
         chrome.pageAction.setIcon({
           tabId: tab.id,
           imageData: hashblotImageData(blotStr,
@@ -44,7 +45,7 @@
         });
         chrome.pageAction.setTitle({
           tabId: tab.id,
-          title: blotStr + ' [blot.pw]'
+          title: 'blot.pw: ' + blotStr
         });
         chrome.pageAction.show(tab.id);
       });
