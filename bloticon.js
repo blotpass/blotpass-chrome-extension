@@ -31,15 +31,20 @@
     var hostname = blotpw.getHostnameFromUrl(tab.url);
     if (hostname) {
       blotpw.getDomainAndInfo(hostname, function(err, info) {
-        var email = info.record ? info.record.email
-          : info.defaults && info.defaults.email;
-        var salt = info.record ? info.record.salt
-          : info.defaults && info.defaults.salt;
+        var blotStr = blotpw.blotString({
+          domain: info.domain,
+          email: email = info.record ? info.record.email
+            : info.defaults && info.defaults.email,
+          salt: info.record ? info.record.salt
+            : info.defaults && info.defaults.salt});
         chrome.pageAction.setIcon({
           tabId: tab.id,
-          imageData: hashblotImageData(blotpw.blotString({
-            domain: info.domain, email: email, salt: salt}),
+          imageData: hashblotImageData(blotStr,
             info.record ? '' : 'fill:#888')
+        });
+        chrome.pageAction.setTitle({
+          tabId: tab.id,
+          title: blotStr + ' [blot.pw]'
         });
         chrome.pageAction.show(tab.id);
       });
