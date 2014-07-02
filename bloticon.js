@@ -12,10 +12,18 @@
 
   // Returns a dictionary of ImageData for the hashblot at scales.
   function hashblotImageData(str, style) {
+
+    // Size of 1 native px in SVG's coordinate space
+    var px = 260/iconSize;
+
     svgImg.src = 'data:image/svg+xml,' +
       '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" ' +
-      'viewBox="-1 -1 257 257"><path d="' + hashblot.sha1qp(str) + '" ' +
-      'style="fill-rule:nonzero;' + (style || '') + '"/></svg>';
+        'viewBox="'+(-px-1)+' '+(-px-1)+' '+(px*2+258)+' '+(px*2+258)+'">' +
+      '<rect x="'+(-px/2-1)+'" y="'+(-px/2-1)+'" '+
+        'height="'+(px+258)+'" width="'+(px+258)+'" '+
+        'style="fill: #fff; stroke: #bbb; stroke-width: '+px+';" />' +
+      '<path d="' + hashblot.sha1qp(str) + '" ' +
+        'style="fill-rule:nonzero;' + (style || '') + '"/></svg>';
 
     var dict = {};
     scales.forEach(function(scale) {
