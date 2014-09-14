@@ -5,8 +5,6 @@
   var iconSize = 19;
   var scales = [1,2];
   var maxDimension = Math.max.apply(null,scales) * iconSize;
-  var svgImg = document.createElement('img');
-    svgImg.width = maxDimension; svgImg.height = maxDimension;
   var iconCanvas = document.createElement('canvas');
     iconCanvas.width = maxDimension; iconCanvas.height = maxDimension;
   var icCtx = iconCanvas.getContext('2d');
@@ -14,24 +12,29 @@
   // Returns a dictionary of ImageData for the hashblot at scales.
   function hashblotImageData(str, style) {
 
-    // Size of 1 native px in SVG's coordinate space
-    var px = 257/iconSize;
-
-    svgImg.src = 'data:image/svg+xml,' +
-      '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" ' +
-        'viewBox="'+(-px)+' '+(-px)+' '+(px*2+255)+' '+(px*2+255)+'" ' +
-        'width="'+maxDimension+'" height="'+maxDimension+'" >' +
-      '<rect x="'+(-px/2)+'" y="'+(-px/2)+'" '+
-        'height="'+(px+255)+'" width="'+(px+255)+'" '+
-        'style="fill: #fff; stroke: #bbb; stroke-width: '+px+';" />' +
-      '<path d="' + hashblot.sha1qpd(str) + '" ' +
-        'style="fill-rule:nonzero;' + (style || '') + '" /></svg>';
-
     var dict = {};
     scales.forEach(function(scale) {
       var renderSize = iconSize * scale;
-      icCtx.clearRect(0, 0, renderSize, renderSize);
-      icCtx.drawImage(svgImg, 0, 0, renderSize, renderSize);
+      // Scale factor between 0-255 coordinate space and icon space
+      var blotScale = (renderSize-scale*2)/255;
+
+      icCtx.fillStyle = '#bbb';
+      icCtx.fillRect(0, 0, renderSize, renderSize);
+      icCtx.save();
+      // within a 1px border
+      icCtx.translate(scale, scale);
+      // Scale to blot scale
+      icCtx.scale(blotScale, blotScale);
+      // Fill the background
+      icCtx.fillStyle = '#fff';
+      icCtx.fillRect(0, 0, 255, 255);
+      // Draw the blot
+      icCtx.fillStyle = style;
+      icCtx.beginPath();
+      hashblot.sha1qpath2d(str,icCtx);
+      icCtx.fill();
+      // Render the icon at this scale
+      icCtx.restore();
       dict[renderSize] = icCtx.getImageData(0, 0, renderSize, renderSize);
     });
     return dict;
@@ -51,7 +54,7 @@
         chrome.pageAction.setIcon({
           tabId: tab.id,
           imageData: hashblotImageData(blotStr,
-            info.record ? '' : 'fill:#888')
+            info.record ? '#000' : '#888')
         });
         chrome.pageAction.setTitle({
           tabId: tab.id,
