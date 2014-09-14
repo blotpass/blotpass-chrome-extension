@@ -15,14 +15,14 @@
   function hashblotImageData(str, style) {
 
     // Size of 1 native px in SVG's coordinate space
-    var px = 258/iconSize;
+    var px = 257/iconSize;
 
     svgImg.src = 'data:image/svg+xml,' +
       '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" ' +
-        'viewBox="'+(-px)+' '+(-px)+' '+(px*2+256)+' '+(px*2+256)+'" ' +
+        'viewBox="'+(-px)+' '+(-px)+' '+(px*2+255)+' '+(px*2+255)+'" ' +
         'width="'+maxDimension+'" height="'+maxDimension+'" >' +
       '<rect x="'+(-px/2)+'" y="'+(-px/2)+'" '+
-        'height="'+(px+256)+'" width="'+(px+256)+'" '+
+        'height="'+(px+255)+'" width="'+(px+255)+'" '+
         'style="fill: #fff; stroke: #bbb; stroke-width: '+px+';" />' +
       '<path d="' + hashblot.sha1qp(str) + '" ' +
         'style="fill-rule:nonzero;' + (style || '') + '" /></svg>';
