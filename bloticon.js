@@ -24,7 +24,7 @@
       '<rect x="'+(-px/2)+'" y="'+(-px/2)+'" '+
         'height="'+(px+255)+'" width="'+(px+255)+'" '+
         'style="fill: #fff; stroke: #bbb; stroke-width: '+px+';" />' +
-      '<path d="' + hashblot.sha1qp(str) + '" ' +
+      '<path d="' + hashblot.sha1qpd(str) + '" ' +
         'style="fill-rule:nonzero;' + (style || '') + '" /></svg>';
 
     var dict = {};

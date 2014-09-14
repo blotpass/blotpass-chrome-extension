@@ -2,7 +2,7 @@
 
 function updateFromPhrase(phrase) {
   document.getElementById('blotpath').setAttribute('d',
-    phrase ? hashblot.sha1qp(phrase) : '');
+    phrase ? hashblot.sha1qpd(phrase) : '');
 }
 
 function calculateHashblot() {

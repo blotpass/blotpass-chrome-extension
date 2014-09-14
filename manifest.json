@@ -22,7 +22,7 @@
   },
 
   "background": {
-    "scripts": ["queue.js", "sha1.js",
+    "scripts": ["vendor/queue.js", "vendor/rusha.js",
       "hashblot.js", "blotpw.js", "bloticon.js", "background.js"],
     "persistent": false
   },
