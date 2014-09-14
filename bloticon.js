@@ -6,6 +6,7 @@
   var scales = [1,2];
   var maxDimension = Math.max.apply(null,scales) * iconSize;
   var svgImg = document.createElement('img');
+    svgImg.width = maxDimension; svgImg.height = maxDimension;
   var iconCanvas = document.createElement('canvas');
     iconCanvas.width = maxDimension; iconCanvas.height = maxDimension;
   var icCtx = iconCanvas.getContext('2d');
@@ -18,12 +19,13 @@
 
     svgImg.src = 'data:image/svg+xml,' +
       '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" ' +
-        'viewBox="'+(-px)+' '+(-px)+' '+(px*2+256)+' '+(px*2+256)+'">' +
+        'viewBox="'+(-px)+' '+(-px)+' '+(px*2+256)+' '+(px*2+256)+'" ' +
+        'width="'+maxDimension+'" height="'+maxDimension+'" >' +
       '<rect x="'+(-px/2)+'" y="'+(-px/2)+'" '+
         'height="'+(px+256)+'" width="'+(px+256)+'" '+
         'style="fill: #fff; stroke: #bbb; stroke-width: '+px+';" />' +
       '<path d="' + hashblot.sha1qp(str) + '" ' +
-        'style="fill-rule:nonzero;' + (style || '') + '"/></svg>';
+        'style="fill-rule:nonzero;' + (style || '') + '" /></svg>';
 
     var dict = {};
     scales.forEach(function(scale) {
