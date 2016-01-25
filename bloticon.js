@@ -1,22 +1,22 @@
 /*global chrome hashblot blotpass*/
-(function(){
+{
   // until http://crbug.com/29683 is fixed, we need to generate ImageData
   // to set the icon for a page action
-  var iconSize = 19;
-  var scales = [1,2];
-  var maxDimension = Math.max.apply(null,scales) * iconSize;
-  var iconCanvas = document.createElement('canvas');
+  let iconSize = 19;
+  let scales = [1,2];
+  let maxDimension = Math.max.apply(null,scales) * iconSize;
+  let iconCanvas = document.createElement('canvas');
     iconCanvas.width = maxDimension; iconCanvas.height = maxDimension;
-  var icCtx = iconCanvas.getContext('2d');
+  let icCtx = iconCanvas.getContext('2d');
 
   // Returns a dictionary of ImageData for the hashblot at scales.
-  function hashblotImageData(str, style) {
+  let hashblotImageData = (str, style) => {
 
-    var dict = {};
+    let dict = {};
     scales.forEach(function(scale) {
-      var renderSize = iconSize * scale;
+      let renderSize = iconSize * scale;
       // Scale factor between 0-255 coordinate space and icon space
-      var blotScale = (renderSize-scale*2)/255;
+      let blotScale = (renderSize-scale*2)/255;
 
       icCtx.fillStyle = '#bbb';
       icCtx.fillRect(0, 0, renderSize, renderSize);
@@ -38,13 +38,13 @@
       dict[renderSize] = icCtx.getImageData(0, 0, renderSize, renderSize);
     });
     return dict;
-  }
+  };
 
-  function updateTabIcon(tab) {
-    var hostname = blotpass.getHostnameFromUrl(tab.url);
+  let updateTabIcon = (tab) => {
+    let hostname = blotpass.getHostnameFromUrl(tab.url);
     if (hostname) {
-      blotpass.getDomainAndInfo(hostname, function(err, info) {
-        var blotStr = blotpass.blotString({
+      blotpass.getDomainAndInfo(hostname).then(info => {
+        let blotStr = blotpass.blotString({
           domain: info.domain,
           email: info.record ? info.record.email
             : info.defaults && info.defaults.email,
@@ -63,6 +63,7 @@
         chrome.pageAction.show(tab.id);
       });
     }
-  }
+  };
+
   window.bloticon = {updateTabIcon: updateTabIcon};
-})();
+}

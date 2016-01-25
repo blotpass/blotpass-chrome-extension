@@ -1,7 +1,7 @@
 /*global chrome blotpass*/
 
 function init() {
-  blotpass.getDefaults(function(err, defaults) {
+  blotpass.getDefaults().then(defaults => {
     document.getElementById('email').value = defaults.email || '';
     document.getElementById('salt').value = defaults.salt || '';
   });
@@ -16,4 +16,4 @@ function save() {
 
 init();
 
-document.getElementById('save').addEventListener('click',save);
+document.getElementById('save').addEventListener('click', save);

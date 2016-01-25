@@ -1,4 +1,4 @@
-/*global chrome hashblot queue blotpass bloticon*/
+/*global chrome hashblot blotpass bloticon*/
 
 function updateFromPhrase(phrase) {
   document.getElementById('blotpath').setAttribute('d',
@@ -15,10 +15,10 @@ function calculateHashblot() {
 var currentInfo;
 
 function loadInfo() {
-  chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-    var hostname = blotpass.getHostnameFromUrl(tabs[0].url);
+  chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+    let hostname = blotpass.getHostnameFromUrl(tabs[0].url);
     if (hostname) {
-      blotpass.getDomainAndInfo(hostname, function(err,info) {
+      blotpass.getDomainAndInfo(hostname).then(info => {
         currentInfo = info;
         setStateFromCurrentInfo();
       });
@@ -38,7 +38,7 @@ function getResultsFromInfo(info) {
 }
 
 function setStateFromCurrentInfo() {
-  var info = getResultsFromInfo(currentInfo);
+  let info = getResultsFromInfo(currentInfo);
   document.getElementById('domain').value = info.domain;
   document.getElementById('domainname').textContent = info.domain;
   document.getElementById('email').value = info.email;
@@ -55,18 +55,17 @@ function setDomainProfileInfo() {
 }
 
 function showOnlyChild(parentId, childId) {
-  var children = document.getElementById(parentId).children;
-  for (var i = 0; i < children.length; i++) {
+  let children = document.getElementById(parentId).children;
+  for (let i = 0; i < children.length; i++) {
     children[i].hidden = (children[i].id != childId);
   }
 }
 
 function updateDisplayState() {
-  var formDomain = document.getElementById('domain').value;
-  var formEmail = document.getElementById('email').value;
-  var formSalt = document.getElementById('salt').value;
-  var formMemo = document.getElementById('memo').value;
-
+  let formDomain = document.getElementById('domain').value;
+  let formEmail = document.getElementById('email').value;
+  let formSalt = document.getElementById('salt').value;
+  let formMemo = document.getElementById('memo').valulet
   if (currentInfo.record) {
 
     if (formDomain == currentInfo.domain
@@ -109,25 +108,24 @@ function updateDisplayState() {
 }
 
 function updateTabIcons(domain) {
-  chrome.tabs.query({url: '*://*.' + domain + '/*'},
-    function (tabs) {
-      for (var i = 0; i < tabs.length; ++i) {
-        bloticon.updateTabIcon(tabs[i]);
-      }
-    });
+  chrome.tabs.query({url: '*://*.' + domain + '/*'}, tabs => {
+    for (let i = 0; i < tabs.length; ++i) {
+      bloticon.updateTabIcon(tabs[i]);
+    }
+  });
 }
 
 function saveRecord() {
-  var newDomain = document.getElementById('domain').value;
+  let newDomain = document.getElementById('domain').value;
   // TODO: alert if new record won't match the current domain
-  var newRecord = {
+  let newRecord = {
     email: document.getElementById('email').value,
     salt: document.getElementById('salt').value,
     memo: document.getElementById('memo').value
   };
-  var newItems = {};
+  let newItems = {};
   newItems['records.' + newDomain] = newRecord;
-  chrome.storage.local.set(newItems,function(){
+  chrome.storage.local.set(newItems, () => {
     // If the domain is changing
     if (currentInfo.domain != newDomain) {
       // Delete the record for the old domain and re-retrieve the new info
@@ -152,7 +150,7 @@ function updateDomain() {
 }
 
 function deleteRecord() {
-  chrome.storage.local.remove(['records.' + currentInfo.domain], function(){
+  chrome.storage.local.remove(['records.' + currentInfo.domain], () => {
     // load info for whatever the relevant domain is now
     updateTabIcons(currentInfo.domain);
     loadInfo();
