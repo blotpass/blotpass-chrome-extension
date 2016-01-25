@@ -1,29 +1,29 @@
 {
   "manifest_version": 2,
 
-  "name": "blot.pw",
-  "homepage_url": "http://blot.pw/",
-  "description": "Adds blot.pw information to your tabs.",
-  "version": "0.9.0",
+  "name": "Blotpass",
+  "homepage_url": "https://www.blotpass.com/",
+  "description": "A password hint manager.",
+  "version": "0.9.1",
 
-  "icons": { "16": "icon16.png",
-             "48": "icon48.png",
-            "128": "icon128.png" },
+  "icons": { "16": "icons/16px.png",
+             "48": "icons/48px.png",
+            "128": "icons/128px-16pxmargin.png" },
 
   "permissions": [
-    "*://*.blot.pw/*",
+    "*://*.blotpass.com/*",
     "tabs",
     "storage"
   ],
 
   "page_action": {
-    "default_title": "blot.pw",
+    "default_title": "Blotpass",
     "default_popup": "popup.html"
   },
 
   "background": {
     "scripts": ["vendor/queue.js", "vendor/rusha.js",
-      "hashblot.js", "blotpw.js", "bloticon.js", "background.js"],
+      "hashblot.js", "blotpass.js", "bloticon.js", "background.js"],
     "persistent": false
   },
 

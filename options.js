@@ -1,7 +1,7 @@
-/*global chrome blotpw*/
+/*global chrome blotpass*/
 
 function init() {
-  blotpw.getDefaults(function(err, defaults) {
+  blotpass.getDefaults(function(err, defaults) {
     document.getElementById('email').value = defaults.email || '';
     document.getElementById('salt').value = defaults.salt || '';
   });

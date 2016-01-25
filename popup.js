@@ -1,4 +1,4 @@
-/*global chrome hashblot queue blotpw blotIcon*/
+/*global chrome hashblot queue blotpass bloticon*/
 
 function updateFromPhrase(phrase) {
   document.getElementById('blotpath').setAttribute('d',
@@ -6,7 +6,7 @@ function updateFromPhrase(phrase) {
 }
 
 function calculateHashblot() {
-  updateFromPhrase(blotpw.blotString({
+  updateFromPhrase(blotpass.blotString({
     email: document.getElementById('email').value,
     domain: document.getElementById('domain').value,
     salt: document.getElementById('salt').value}));
@@ -16,9 +16,9 @@ var currentInfo;
 
 function loadInfo() {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-    var hostname = blotpw.getHostnameFromUrl(tabs[0].url);
+    var hostname = blotpass.getHostnameFromUrl(tabs[0].url);
     if (hostname) {
-      blotpw.getDomainAndInfo(hostname, function(err,info) {
+      blotpass.getDomainAndInfo(hostname, function(err,info) {
         currentInfo = info;
         setStateFromCurrentInfo();
       });

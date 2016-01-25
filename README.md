@@ -1,4 +1,3 @@
-blotpw-chrome-extension
-=======================
+# blotpass-chrome-extension
 
-Chrome extension for blot.pw
+Chrome extension for Blotpass

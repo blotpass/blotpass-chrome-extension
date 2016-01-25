@@ -1,4 +1,4 @@
-/*global chrome hashblot blotpw bloticon*/
+/*global chrome bloticon*/
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   bloticon.updateTabIcon(tab);

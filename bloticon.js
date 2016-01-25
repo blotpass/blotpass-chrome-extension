@@ -1,4 +1,4 @@
-/*global chrome hashblot blotpw*/
+/*global chrome hashblot blotpass*/
 (function(){
   // until http://crbug.com/29683 is fixed, we need to generate ImageData
   // to set the icon for a page action
@@ -41,10 +41,10 @@
   }
 
   function updateTabIcon(tab) {
-    var hostname = blotpw.getHostnameFromUrl(tab.url);
+    var hostname = blotpass.getHostnameFromUrl(tab.url);
     if (hostname) {
-      blotpw.getDomainAndInfo(hostname, function(err, info) {
-        var blotStr = blotpw.blotString({
+      blotpass.getDomainAndInfo(hostname, function(err, info) {
+        var blotStr = blotpass.blotString({
           domain: info.domain,
           email: info.record ? info.record.email
             : info.defaults && info.defaults.email,
@@ -58,7 +58,7 @@
         });
         chrome.pageAction.setTitle({
           tabId: tab.id,
-          title: 'blot.pw [' + blotStr + ']'
+          title: 'Blotpass [' + blotStr + ']'
         });
         chrome.pageAction.show(tab.id);
       });

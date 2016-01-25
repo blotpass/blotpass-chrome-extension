@@ -95,7 +95,7 @@
       });
   }
 
-  window.blotpw = {
+  window.blotpass = {
     blotString: blotString,
     getHostnameFromUrl: getHostnameFromUrl,
     getDomainAndInfo: getDomainAndInfo,
