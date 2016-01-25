@@ -1,55 +1,57 @@
 /*global chrome fetch*/
 "use strict";
-{
-  let getHostname = (url) => {
+(function(){
+  function getHostname(url) {
     let a = document.createElement('a');
     a.href = url;
     return a.hostname;
-  };
+  }
 
   // Returns whether or not a URL is either HTTP or HTTPS.
-  let urlIsHttp = (url) => {
+  function urlIsHttp(url) {
     let a = document.createElement('a');
     a.href = url;
     return a.protocol == 'http:' || a.protocol == 'https:' ;
-  };
+  }
 
-  let getHostnameFromUrl = (url) => {
+  function getHostnameFromUrl(url) {
     return urlIsHttp(url) ? getHostname(url) : null;
-  };
+  }
 
-  let getDomainProfiles = () => {
+  function getDomainProfiles() {
     return fetch('/domainprofiles.json').then(res => res.json());
-  };
+  }
 
-  let blotString = (info) => {
+  function blotString(info) {
     let base = info.domain;
     if (info.email) base = info.email + ' ' + base;
     if (info.salt) base = base + ' ' + info.salt;
     return base;
-  };
+  }
 
-  let getLocalNamespaces = (namespaces) => new Promise((resolve, reject) => {
-    return chrome.storage.local.get(null, items => {
-      let results = {};
-      namespaces.forEach(namespace => results[namespace] = {});
-      Object.keys(items).forEach(key => {
-        namespaces.forEach(namespace => {
-          let prefix = namespace + '.';
-          if (key.slice(0, prefix.length) == prefix) {
-            results[namespace][key.slice(prefix.length)] = items[key];
-          }
+  function getLocalNamespaces(namespaces){
+    return new Promise((resolve, reject) => {
+      return chrome.storage.local.get(null, items => {
+        let results = {};
+        namespaces.forEach(namespace => results[namespace] = {});
+        Object.keys(items).forEach(key => {
+          namespaces.forEach(namespace => {
+            let prefix = namespace + '.';
+            if (key.slice(0, prefix.length) == prefix) {
+              results[namespace][key.slice(prefix.length)] = items[key];
+            }
+          });
         });
+        return resolve(results);
       });
-      return resolve(results);
     });
-  });
+  }
 
-  let getDefaults = () => {
+  function getDefaults() {
     return getLocalNamespaces(['defaults']).then(local => local.defaults);
-  };
+  }
 
-  let getDomainAndInfo = (hostname, cb) => {
+  function getDomainAndInfo(hostname, cb) {
     let components = hostname.split('.');
     return Promise.all([
       getDomainProfiles(),
@@ -87,7 +89,7 @@
           defaults: local.defaults
         };
       });
-  };
+  }
 
   window.blotpass = {
     blotString: blotString,
@@ -95,4 +97,4 @@
     getDomainAndInfo: getDomainAndInfo,
     getDefaults: getDefaults
   };
-}
+})();

@@ -11,7 +11,7 @@
   let icCtx = iconCanvas.getContext('2d');
 
   // Returns a dictionary of ImageData for the hashblot at scales.
-  let hashblotImageData = (str, style) => {
+  function hashblotImageData(str, style) {
 
     let dict = {};
     scales.forEach(function(scale) {
@@ -39,9 +39,9 @@
       dict[renderSize] = icCtx.getImageData(0, 0, renderSize, renderSize);
     });
     return dict;
-  };
+  }
 
-  let updateTabIcon = (tab) => {
+  function updateTabIcon(tab) {
     let hostname = blotpass.getHostnameFromUrl(tab.url);
     if (hostname) {
       blotpass.getDomainAndInfo(hostname).then(info => {
@@ -64,7 +64,7 @@
         chrome.pageAction.show(tab.id);
       });
     }
-  };
+  }
 
   window.bloticon = {updateTabIcon: updateTabIcon};
 }

@@ -1,6 +1,5 @@
 /*global chrome hashblot blotpass bloticon*/
 "use strict";
-{
 
 function updateFromPhrase(phrase) {
   document.getElementById('blotpath').setAttribute('d',
@@ -209,4 +208,3 @@ function hookupListeners() {
 
 hookupListeners();
 loadInfo();
-}
