@@ -1,6 +1,6 @@
 /*global chrome hashblot blotpass*/
+"use strict";
 {
-  "use strict";
   // until http://crbug.com/29683 is fixed, we need to generate ImageData
   // to set the icon for a page action
   let iconSize = 19;

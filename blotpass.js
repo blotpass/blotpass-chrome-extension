@@ -1,7 +1,6 @@
 /*global chrome fetch*/
+"use strict";
 {
-  "use strict";
-
   let getHostname = (url) => {
     let a = document.createElement('a');
     a.href = url;

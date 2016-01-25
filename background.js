@@ -1,6 +1,6 @@
 /*global chrome bloticon*/
+"use strict";
 {
-  "use strict";
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     bloticon.updateTabIcon(tab);
   });

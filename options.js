@@ -1,6 +1,6 @@
 /*global chrome blotpass*/
-{
 "use strict";
+{
 
 function init() {
   blotpass.getDefaults().then(defaults => {
