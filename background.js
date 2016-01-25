@@ -1,15 +1,17 @@
 /*global chrome bloticon*/
+{
+  "use strict";
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    bloticon.updateTabIcon(tab);
+  });
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  bloticon.updateTabIcon(tab);
-});
-
-// Update all tabs on startup
-chrome.runtime.onInstalled.addListener(function() {
-  chrome.tabs.query({url: '*://*/*'},
-    function (tabs) {
-      for (var i = 0; i < tabs.length; ++i) {
+  // Update all tabs on startup
+  chrome.runtime.onInstalled.addListener(() => {
+    chrome.tabs.query({url: '*://*/*'}, (tabs) => {
+      for (let i = 0; i < tabs.length; ++i) {
         bloticon.updateTabIcon(tabs[i]);
       }
     });
-});
+  });
+
+}

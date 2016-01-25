@@ -1,4 +1,6 @@
 /*global chrome blotpass*/
+{
+"use strict";
 
 function init() {
   blotpass.getDefaults().then(defaults => {
@@ -17,3 +19,4 @@ function save() {
 init();
 
 document.getElementById('save').addEventListener('click', save);
+}

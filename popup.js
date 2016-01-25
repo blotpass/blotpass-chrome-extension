@@ -1,4 +1,6 @@
 /*global chrome hashblot blotpass bloticon*/
+{
+"use strict";
 
 function updateFromPhrase(phrase) {
   document.getElementById('blotpath').setAttribute('d',
@@ -65,7 +67,7 @@ function updateDisplayState() {
   let formDomain = document.getElementById('domain').value;
   let formEmail = document.getElementById('email').value;
   let formSalt = document.getElementById('salt').value;
-  let formMemo = document.getElementById('memo').valulet
+  let formMemo = document.getElementById('memo').value;
   if (currentInfo.record) {
 
     if (formDomain == currentInfo.domain
@@ -207,3 +209,4 @@ function hookupListeners() {
 
 hookupListeners();
 loadInfo();
+}
